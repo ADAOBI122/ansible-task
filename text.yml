@@ -1,0 +1,25 @@
+---
+- name: Setup webservers
+  hosts: web1
+  remote_user: ubuntu
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Add content to index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: "<h1>udoye adaobi</h1>"
